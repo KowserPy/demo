@@ -15,7 +15,7 @@ const Login = () => {
 		if (isSuccess || token) {
 			navigate("/"); // Navigate to home if already authenticated
 		}
-	}, [isSuccess, user, navigate]);
+	}, [isSuccess, token, navigate]);
 
 	useEffect(() => {
 		if (window.Telegram.WebApp.initData !== "") {
