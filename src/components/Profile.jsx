@@ -5,12 +5,12 @@ import { fetchUserProfile } from "../features/user/userSlice";
 
 const Profile = () => {
 	const dispatch = useDispatch();
-	const { profile, loading, error } = useSelector((state) => state.user);
-
 	useEffect(() => {
 		dispatch(fetchUserProfile());
 	}, [dispatch]);
+	const { profile, loading, error } = useSelector((state) => state.user);
 
+	console.log(profile);
 	return (
 		<div className="bg-gradient-to-r from-blue-200 to-cyan-200 p-5 rounded-lg shadow-lg w-full max-w-md">
 			<div className="flex flex-col items-center mb-6">
