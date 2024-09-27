@@ -2,18 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import woofImg from "../assets/woof.png";
 import { fetchTasks } from "../features/task/TaskSlice";
-import { FaTelegramPlane } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
-import { FaYoutube } from "react-icons/fa";
-
 const Task = () => {
-	const dispatch = useDispatch();
-	const { tasks, loading, error } = useSelector((state) => state.task);
+	// const dispatch = useDispatch();
+	// const { tasks, loading, error } = useSelector((state) => state.task);
 
-	useEffect(() => {
-		console.log(tasks);
-		dispatch(fetchTasks());
-	}, [dispatch]);
+	// useEffect(() => {
+	// 	console.log(tasks);
+	// 	dispatch(fetchTasks());
+	// }, [dispatch]);
 
 	return (
 		<div className="bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col items-center p-5 gap-5 h-[calc(100vh-4rem)] hide-scrollbar overflow-y-scroll space-y-6 pb-20 relative">
