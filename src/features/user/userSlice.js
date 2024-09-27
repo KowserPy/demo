@@ -5,6 +5,7 @@ import axiosInstance from "../../api/axiosInstance";
 // Async thunk to fetch the user profile
 export const fetchUserProfile = createAsyncThunk("user/fetchProfile", async () => {
 	const response = await axiosInstance.get("/auth/me"); // Assuming you have an endpoint for user profile
+	console.log(response);
 	return response.data; // Return the user profile data
 });
 
