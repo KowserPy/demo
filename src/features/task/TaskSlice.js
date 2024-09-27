@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../api/axiosInstance";
 
 // Thunk to fetch tasks
-// Async thunk for user login
 export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
 	const response = await axiosInstance.get("/tasks");
 	return response.data;
