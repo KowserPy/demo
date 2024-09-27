@@ -10,26 +10,11 @@ import { FaYoutube } from "react-icons/fa";
 const Task = () => {
 	const dispatch = useDispatch();
 	const { tasks, loading, error } = useSelector((state) => state.tasks);
-	const [selectedTask, setSelectedTask] = useState(null);
-	const [isModalOpen, setIsModalOpen] = useState(false);
-
-	const openTask = (task) => {
-		setSelectedTask(task);
-		setIsModalOpen(true);
-	};
-
-	const closeModal = () => {
-		setIsModalOpen(false);
-		setSelectedTask(null);
-	};
 
 	useEffect(() => {
 		console.log(tasks);
 		dispatch(fetchTasks());
 	}, [dispatch]);
-
-	if (loading) return <p className="text-center">Loading tasks...</p>;
-	if (error) return <p className="text-red-500 text-center">Error loading tasks: {error}</p>;
 
 	return (
 		<div className="bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col items-center p-5 gap-5 h-[calc(100vh-4rem)] hide-scrollbar overflow-y-scroll space-y-6 pb-20 relative">
@@ -42,7 +27,7 @@ const Task = () => {
 			</div>
 
 			<ul className="flex flex-col gap-2 space-y-4 max-w-md w-full mx-auto bg-gradient-to-r from-blue-200 to-cyan-200 p-5 rounded-lg">
-				{incompleteTasks.map((task, index) => (
+				{tasks.map((task, index) => (
 					<li key={index} className="flex items-center gap-2 cursor-pointer" onClick={() => openTask(task)}>
 						<div className="w-14 h-14 text-xl flex justify-center items-center bg-gradient-to-r from-violet-200 to-pink-200 rounded-full">
 							{task.taskCategory === "telegram" ? (
@@ -62,7 +47,7 @@ const Task = () => {
 			</ul>
 
 			{/* Modal for Task Details */}
-			<TaskModal task={selectedTask} isOpen={isModalOpen} onClose={closeModal} />
+			{/* <TaskModal task={selectedTask} isOpen={isModalOpen} onClose={closeModal} /> */}
 		</div>
 	);
 };
