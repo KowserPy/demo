@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "../app/store";
-import { clearUser } from "../features/auth/authSlice";
+import { clearAuth } from "../features/auth/authSlice";
 
 const axiosInstance = axios.create({
 	baseURL: "http://localhost:8000/api/v1",
@@ -31,7 +31,7 @@ axiosInstance.interceptors.response.use(
 	(error) => {
 		const originalRequest = error.config;
 		if (error.response.status === 401) {
-			store.dispatch(clearUser());
+			store.dispatch(clearAuth());
 		}
 		return Promise.reject(error);
 	}
