@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../api/axiosInstance";
 
 // Async thunk for user login
-export const loginUser = createAsyncThunk("auth/login", async (credentials) => {
+export const createUser = createAsyncThunk("auth/login", async (credentials) => {
 	const response = await axiosInstance.post("/auth/createUser", credentials);
 	return response.data; // Assuming your backend returns token and user info
 });
