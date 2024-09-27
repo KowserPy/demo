@@ -23,16 +23,16 @@ const authSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(loginUser.pending, (state) => {
+			.addCase(createUser.pending, (state) => {
 				state.loading = true;
 				state.error = null;
 			})
-			.addCase(loginUser.fulfilled, (state, action) => {
+			.addCase(createUser.fulfilled, (state, action) => {
 				state.loading = false;
 				state.token = action.payload.token; // Store token
 				localStorage.setItem("token", action.payload.token);
 			})
-			.addCase(loginUser.rejected, (state, action) => {
+			.addCase(createUser.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.error.message;
 			});
