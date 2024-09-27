@@ -1,6 +1,6 @@
 // src/store/userSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axiosInstance from "../axiosInstance";
+import axiosInstance from "../../api/axiosInstance";
 
 // Async thunk to fetch the user profile
 export const fetchUserProfile = createAsyncThunk("user/fetchProfile", async () => {
