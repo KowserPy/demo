@@ -9,7 +9,7 @@ import { FaYoutube } from "react-icons/fa";
 
 const Task = () => {
 	const dispatch = useDispatch();
-	const { incompleteTasks, loading, error } = useSelector((state) => state.tasks);
+	const { tasks, loading, error } = useSelector((state) => state.tasks);
 	const [selectedTask, setSelectedTask] = useState(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -24,7 +24,7 @@ const Task = () => {
 	};
 
 	useEffect(() => {
-		console.log(incompleteTasks);
+		console.log(tasks);
 		dispatch(fetchTasks());
 	}, [dispatch]);
 
