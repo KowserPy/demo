@@ -8,7 +8,7 @@ import { FaYoutube } from "react-icons/fa";
 
 const Task = () => {
 	const dispatch = useDispatch();
-	const { tasks, loading, error } = useSelector((state) => state.tasks);
+	const { tasks, loading, error } = useSelector((state) => state.task);
 
 	useEffect(() => {
 		console.log(tasks);
