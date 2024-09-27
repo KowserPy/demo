@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import woofImg from "../assets/woof.png";
 import { fetchTasks } from "../features/task/TaskSlice";
+import { FaTelegramPlane } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
+import { FaYoutube } from "react-icons/fa";
+
 const Task = () => {
 	const dispatch = useDispatch();
 	const { tasks, loading, error } = useSelector((state) => state.task);
