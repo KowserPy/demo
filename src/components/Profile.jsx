@@ -21,7 +21,7 @@ const Profile = () => {
 				<div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg shadow-sm">
 					<span className="font-semibold">Points</span>
 					<div className="flex items-center gap-2">
-						{/* <span>{profile.points}</span> */}
+						<span>{profile.points.totalPoints}</span>
 						<img src={woofImg} alt="Reward Icon" className="w-6 h-6" />
 					</div>
 				</div>
