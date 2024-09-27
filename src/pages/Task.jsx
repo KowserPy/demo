@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import woofImg from "../assets/woof.png";
 import { fetchTasks } from "../features/task/TaskSlice";
 const Task = () => {
-	// const dispatch = useDispatch();
-	// const { tasks, loading, error } = useSelector((state) => state.task);
+	const dispatch = useDispatch();
+	const { tasks, loading, error } = useSelector((state) => state.task);
 
-	// useEffect(() => {
-	// 	console.log(tasks);
-	// 	dispatch(fetchTasks());
-	// }, [dispatch]);
+	useEffect(() => {
+		console.log(tasks);
+		dispatch(fetchTasks());
+	}, [dispatch]);
 
 	return (
 		<div className="bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col items-center p-5 gap-5 h-[calc(100vh-4rem)] hide-scrollbar overflow-y-scroll space-y-6 pb-20 relative">
@@ -21,7 +21,7 @@ const Task = () => {
 				<p className="text-gray-700 text-lg text-center">Simple steps to get more rating.</p>
 			</div>
 
-			{/* <ul className="flex flex-col gap-2 space-y-4 max-w-md w-full mx-auto bg-gradient-to-r from-blue-200 to-cyan-200 p-5 rounded-lg">
+			<ul className="flex flex-col gap-2 space-y-4 max-w-md w-full mx-auto bg-gradient-to-r from-blue-200 to-cyan-200 p-5 rounded-lg">
 				{tasks.map((task, index) => (
 					<li key={index} className="flex items-center gap-2 cursor-pointer" onClick={() => openTask(task)}>
 						<div className="w-14 h-14 text-xl flex justify-center items-center bg-gradient-to-r from-violet-200 to-pink-200 rounded-full">
@@ -39,7 +39,7 @@ const Task = () => {
 						</div>
 					</li>
 				))}
-			</ul> */}
+			</ul>
 
 			{/* Modal for Task Details */}
 			{/* <TaskModal task={selectedTask} isOpen={isModalOpen} onClose={closeModal} /> */}
