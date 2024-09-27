@@ -1,48 +1,42 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getprofile } from "../../api/user";
+// src/store/userSlice.js
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axiosInstance from "../axiosInstance";
 
-const initialState = {
-	user: JSON.parse(localStorage.getItem("user")) || null,
-	isError: false,
-	isLoading: false,
-	isSuccess: false,
-};
-
-// createUser async thunk
-export const getMyProfile = createAsyncThunk("profile/createUser", async () => {
-	const response = await getprofile();
-	return response;
+// Async thunk to fetch the user profile
+export const fetchUserProfile = createAsyncThunk("user/fetchProfile", async () => {
+	const response = await axiosInstance.get("/auth/me"); // Assuming you have an endpoint for user profile
+	return response.data; // Return the user profile data
 });
 
-const authSlice = createSlice({
-	name: "profile",
-	initialState,
+const userSlice = createSlice({
+	name: "user",
+	initialState: {
+		profile: null, // Stores the user profile information
+		loading: false, // Indicates whether the profile is being fetched
+		error: null, // Stores any error messages during the profile fetch
+	},
 	reducers: {
-		clearUser: (state) => {
-			state.user = null;
-			state.isError = false;
-			state.isLoading = false;
-			state.isSuccess = false;
-			localStorage.removeItem("user");
+		clearProfile: (state) => {
+			state.profile = null; // Action to clear the user profile, useful on logout
 		},
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(createUser.pending, (state) => {
-				state.isLoading = true;
+			.addCase(fetchUserProfile.pending, (state) => {
+				state.loading = true;
+				state.error = null; // Reset error state when starting a new request
 			})
-			.addCase(createUser.fulfilled, (state, action) => {
-				state.isLoading = false;
-				state.isSuccess = true;
-				state.user = action.payload;
-				localStorage.setItem("user", action.payload);
+			.addCase(fetchUserProfile.fulfilled, (state, action) => {
+				state.loading = false;
+				state.profile = action.payload; // Store the fetched profile data
 			})
-			.addCase(createUser.rejected, (state) => {
-				state.isLoading = false;
-				state.isError = true;
+			.addCase(fetchUserProfile.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.error.message; // Store any error that occurred
 			});
 	},
 });
 
-export const { clearUser } = authSlice.actions;
-export default authSlice.reducer;
+export const { clearProfile } = userSlice.actions;
+
+export default userSlice.reducer;
