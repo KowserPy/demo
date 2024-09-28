@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { completeATask } from "../features/task/TaskSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { completeATask } from "../features/task/TaskSlice"; // Ensure you have this import
 
 const botToken = import.meta.env.VITE_BOT_TOKEN;
 
 const TaskModal = ({ task, isOpen, onClose }) => {
-	const [verified, setVerified] = useState(false);
 	const dispatch = useDispatch();
-	const { profile, loading, error } = useSelector((state) => state.user);
+	const { profile } = useSelector((state) => state.user);
+	const [isVerified, setIsVerified] = useState(false); // State to manage verification status
 
 	useEffect(() => {
 		if (isOpen) {
@@ -20,45 +20,45 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 		}
 	}, [isOpen]);
 
-	const completeTaskHandler = async (task) => {
-		if (task) {
-			if (task.taskCategory === "telegram") {
-				try {
-					const response = await axios.get(`https://api.telegram.org/bot${botToken}/getChatMember`, {
-						params: {
-							chat_id: "@MyOWNPY",
-							user_id: profile?.telegramId,
-						},
-					});
-					if (response.data.status === "kicked" || response.data.status === "left") {
-						setVerified(false);
-						return;
-					} else {
-						setVerified(true);
-					}
-				} catch (error) {
-					// Handle error or retry
-					setVerified(false);
-					console.error("Error fetching user membership:", error);
-					return;
-				}
-			}
-			if (verified) {
-				console.log("Task completed successfully");
-				dispatch(completeATask(task._id));
-			} else {
-				console.log("Error , completeTask");
-				toast.error("Complte The task Please");
-			}
+	const checkUserInGroup = async (task) => {
+		// Logic to check if the user has joined the Telegram group
+		try {
+			const response = await axios.get(`https://api.telegram.org/bot${botToken}/getChatMember`, {
+				params: {
+					chat_id: task.groupChatId, // Replace with your group chat ID
+					user_id: profile.telegramId, // User's Telegram ID
+				},
+			});
+			return response.data.result.status === "member" || response.data.result.status === "administrator";
+		} catch (error) {
+			console.error("Error checking user in group:", error);
+			return false; // Assume user is not in the group if there's an error
 		}
 	};
-	const handleJoin = (task) => {
-		if (task.taskCategory === "telegram") {
-			Telegram.WebApp.openTelegramLink(task.completionURL);
+
+	const handleUrlOpen = async (task) => {
+		if (task.category === "telegram") {
+			// For Telegram tasks, allow the user to open the link
+			window.Telegram.WebApp.openTelegramLink(task.completionURL);
 		} else {
-			setVerified(true);
-			Telegram.WebApp.openLink(task.completionURL, { try_instant_view: true });
+			// For other tasks, just open the link and mark as verified
+			window.Telegram.WebApp.openLink(task.completionURL, { try_instant_view: true });
+			setIsVerified(true); // Mark as verified when opening a non-Telegram task
 		}
+	};
+
+	const completeTaskHandler = async (task) => {
+		if (task.category === "telegram") {
+			const isMember = await checkUserInGroup(task);
+			if (!isMember) {
+				toast.error("You need to join the group to complete this task.");
+				return;
+			}
+		}
+		// If we are here, we can dispatch the complete task action
+		dispatch(completeATask(task.id));
+		toast.success("Task completed successfully!");
+		onClose(); // Close modal after completing
 	};
 
 	return (
@@ -99,11 +99,10 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 							/>
 							<h2 className="text-2xl font-bold">{task.title}</h2>
 							<p className="text-yellow-500 font-semibold my-4 text-lg">+{task.points} WOOF</p>
-							{/* <p className="text-gray-700">{task.description}</p> */}
 							<div className="mt-5 flex flex-col justify-center gap-3">
 								<button
-									className=" w-full bg-blue-500 text-white rounded-lg py-2"
-									onClick={() => handleJoin(task)}
+									className="w-full bg-blue-500 text-white rounded-lg py-2"
+									onClick={() => handleUrlOpen(task)}
 								>
 									Subscribe
 								</button>
