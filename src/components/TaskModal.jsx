@@ -10,7 +10,11 @@ const botToken = import.meta.env.VITE_BOT_TOKEN;
 const TaskModal = ({ task, isOpen, onClose }) => {
 	const [verified, setVerified] = useState(false);
 	const dispatch = useDispatch();
-	const { profile, loading, error } = useSelector((state) => state.user);
+	// const { profile, loading, error } = useSelector((state) => state.user);
+	const { profile, loading, error } = useSelector((state) => {
+		console.log(state); // Check the structure of your state
+		return state.user;
+	});
 
 	useEffect(() => {
 		if (isOpen) {
