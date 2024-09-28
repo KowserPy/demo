@@ -24,7 +24,6 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 		// Logic to check if the user has joined the Telegram group
 		let link = task?.completionURL;
 		const telegramId = profile?.telegramId;
-		console.log(profile);
 		const chat_idUsername = link.replace("https://t.me/", "@");
 		console.log("chat_idUsername", chat_idUsername);
 		try {
@@ -61,7 +60,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 		if (task.taskCategory === "telegram") {
 			const isMember = await checkUserInGroup(task);
 			if (!isMember) {
-				toast.error("You need to join the group to complete this task.");
+				toast.error("Please complete this task");
 				return;
 			}
 		}
@@ -70,6 +69,8 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 			dispatch(completeATask(task._id));
 			toast.success("Task completed successfully!");
 			onClose(); // Close modal after completing
+		} else {
+			toast.error("Please complete this task");
 		}
 	};
 
