@@ -3,58 +3,78 @@ import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { completeATask } from "../features/task/TaskSlice";
+import { completeATask, fetchTasks } from "../features/task/TaskSlice"; // Ensure you have this import
 
 const botToken = import.meta.env.VITE_BOT_TOKEN;
 
 const TaskModal = ({ task, isOpen, onClose }) => {
 	const dispatch = useDispatch();
 	const { profile } = useSelector((state) => state.user);
-	const [isVerified, setIsVerified] = useState(false);
+	const [isVerified, setIsVerified] = useState(false); // State to manage verification status
 
 	useEffect(() => {
-		document.body.style.overflow = isOpen ? "hidden" : "auto";
+		if (isOpen) {
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "auto";
+		}
 	}, [isOpen]);
 
 	const checkUserInGroup = async (task) => {
+		// Logic to check if the user has joined the Telegram group
+		let link = task?.completionURL;
 		const telegramId = profile?.telegramId;
-		const chatIdUsername = task?.completionURL.replace("https://t.me/", "@");
-
+		const chat_idUsername = link.replace("https://t.me/", "@");
+		console.log("chat_idUsername", chat_idUsername);
 		try {
 			const response = await axios.get(`https://api.telegram.org/bot${botToken}/getChatMember`, {
-				params: { chat_id: chatIdUsername, user_id: telegramId },
+				params: {
+					chat_id: chat_idUsername, // Replace with your group chat ID
+					user_id: telegramId, // User's Telegram ID
+				},
 			});
 			const isMember =
 				response.data.result.status === "member" || response.data.result.status === "administrator";
-			setIsVerified(isMember);
+			setIsVerified(isMember); // Set isVerified based on membership status
 			return isMember;
 		} catch (error) {
 			console.error("Error checking user in group:", error);
-			toast.error("Could not verify group membership.");
+			setIsVerified(false); // Assume user is not in the group if there's an error
 			return false;
 		}
 	};
 
 	const handleUrlOpen = async (task) => {
 		if (task.taskCategory === "telegram") {
+			// For Telegram tasks, allow the user to open the link
 			window.Telegram.WebApp.openTelegramLink(task.completionURL);
 		} else {
+			// For other tasks, just open the link and mark as verified
 			window.Telegram.WebApp.openLink(task.completionURL, { try_instant_view: true });
-			setIsVerified(true);
+			setIsVerified(true); // Mark as verified when opening a non-Telegram task
 		}
 	};
 
-	const completeTaskHandler = async () => {
-		const isMember = task.taskCategory === "telegram" ? await checkUserInGroup(task) : true;
-
-		if (isMember && (task.taskCategory !== "telegram" || isVerified)) {
-			// Dispatch complete task action
-			dispatch(completeATask(task._id));
-			toast.success("Task completed successfully!");
-			onClose();
+	const completeTaskHandler = async (task) => {
+		if (task.taskCategory === "telegram") {
+			const isMember = await checkUserInGroup(task);
+			if (isMember) {
+				dispatch(completeATask(task._id));
+				toast.success("Task completed successfully!");
+				onClose(); // Close modal after completing
+			} else {
+				toast.error("Please complete this task");
+			}
 		} else {
-			toast.error("Please complete this task before confirming.");
+			if (isVerified) {
+				dispatch(completeATask(task._id));
+				toast.success("Task completed successfully!");
+				onClose(); // Close modal after completing
+			} else {
+				toast.error("Please complete this task");
+			}
 		}
+		dispatch(fetchTasks());
 		setIsVerified(false);
 	};
 
@@ -74,10 +94,11 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 
 			{/* Modal content with height animation */}
 			<div
-				className={`relative bg-gray-100 rounded-t-3xl w-full transition-all duration-500 ease-in-out overflow-x-auto ${
+				className={`relative bg-gray-100 rounded-t-3xl  w-full transition-all duration-500 ease-in-out overflow-x-auto ${
 					isOpen ? "h-[70vh]" : "h-0"
 				}`}
 			>
+				{/* Modal content */}
 				{isOpen && (
 					<div className="p-6">
 						{/* Close button */}
@@ -85,7 +106,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 							onClick={onClose}
 							className="absolute top-5 right-5 text-white hover:text-gray-700 font-bold bg-gray-400 w-8 h-8 flex items-center justify-center rounded-full"
 						>
-							<IoClose className="text-lg text-black" />
+							<IoClose className=" text-lg text-black" />
 						</button>
 						<div className="text-center mt-5">
 							<img
@@ -104,7 +125,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 								</button>
 								<button
 									className="w-full bg-gray-300 text-gray-700 rounded-lg py-2"
-									onClick={completeTaskHandler}
+									onClick={() => completeTaskHandler(task)}
 								>
 									Check subscription
 								</button>

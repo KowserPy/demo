@@ -8,10 +8,9 @@ export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
 });
 
 // Async thunk to complete a task
-export const completeATask = createAsyncThunk("tasks/completeTask", async (taskId, { dispatch, rejectWithValue }) => {
+export const completeATask = createAsyncThunk("tasks/completeTask", async (taskId, { rejectWithValue }) => {
 	try {
 		const response = await axiosInstance.post("/tasks/complete", { taskId });
-		// Return the response data to handle it in the extraReducers
 		return response.data;
 	} catch (error) {
 		return rejectWithValue(error.response.data);
@@ -40,17 +39,21 @@ const taskSlice = createSlice({
 			})
 			.addCase(fetchTasks.rejected, (state, action) => {
 				state.loading = false;
-				state.error = action.payload.message;
+				state.error = action.error.message;
 			})
-			// Handle task completion
+
+			// Complete a task
+			.addCase(completeATask.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
 			.addCase(completeATask.fulfilled, (state, action) => {
-				// Find the completed task using the returned data
-				const completedTaskId = action.payload._id;
-				state.completedTasks.push(action.payload);
-				state.tasks = state.tasks.filter((task) => task._id !== completedTaskId);
+				state.loading = false;
+				state.completedTasks.push(action.payload); // Add the completed task
 			})
 			.addCase(completeATask.rejected, (state, action) => {
-				state.error = action.payload.message;
+				state.loading = false;
+				state.error = action.payload;
 			});
 	},
 });
