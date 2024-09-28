@@ -35,8 +35,8 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 			});
 			const isMember =
 				response.data.result.status === "member" || response.data.result.status === "administrator";
-			console.log("isMember", isMember);
 			setIsVerified(isMember); // Set isVerified based on membership status
+			console.log("isVerified", isVerified);
 			return isMember;
 		} catch (error) {
 			console.error("Error checking user in group:", error);
@@ -59,13 +59,21 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 	const completeTaskHandler = async (task) => {
 		if (task.taskCategory === "telegram") {
 			const isMember = await checkUserInGroup(task);
-		}
-		if (isVerified) {
-			dispatch(completeATask(task._id));
-			toast.success("Task completed successfully!");
-			onClose(); // Close modal after completing
+			if (isMember) {
+				dispatch(completeATask(task._id));
+				toast.success("Task completed successfully!");
+				onClose(); // Close modal after completing
+			} else {
+				toast.error("Please complete this task");
+			}
 		} else {
-			toast.error("Please complete this task");
+			if (isVerified) {
+				dispatch(completeATask(task._id));
+				toast.success("Task completed successfully!");
+				onClose(); // Close modal after completing
+			} else {
+				toast.error("Please complete this task");
+			}
 		}
 	};
 
