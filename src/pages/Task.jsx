@@ -5,6 +5,7 @@ import { fetchTasks } from "../features/task/TaskSlice";
 import { FaTelegramPlane } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
+import TaskModal from "../components/TaskModal";
 
 const Task = () => {
 	const [selectedTask, setSelectedTask] = useState(null);
