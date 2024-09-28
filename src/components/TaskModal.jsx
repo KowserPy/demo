@@ -4,9 +4,12 @@ import { completeATask } from "../features/task/TaskSlice";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
+const botToken = import.meta.env.VITE_BOT_TOKEN;
+
 const TaskModal = ({ task, isOpen, onClose }) => {
 	const [verified, setVerified] = useState(false);
 	const dispatch = useDispatch();
+	const { profile, loading, error } = useSelector((state) => state.user);
 
 	useEffect(() => {
 		if (isOpen) {
@@ -16,8 +19,19 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 		}
 	}, [isOpen]);
 
-	const handleTaskVeriff = () => {
-		toast("Hello");
+	const handleTaskVeriff = async () => {
+		try {
+			const response = await axios.get(`https://api.telegram.org/bot${botToken}/getChatMember`, {
+				params: {
+					chat_id: "@MyOWNPY",
+					user_id: profile?.user?.telegramId,
+				},
+			});
+		} catch (error) {
+			// Handle error or retry
+			console.error("Error fetching user membership:", error);
+		}
+
 		return true;
 	};
 
@@ -28,7 +42,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 		onClose();
 	};
 	const handleJoin = (task) => {
-		if (task.category === "telegram") {
+		if (task.taskCategory === "telegram") {
 			Telegram.WebApp.openTelegramLink(task.link);
 		} else {
 			Telegram.WebApp.openLink(task.link, { try_instant_view: true });
