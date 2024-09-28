@@ -36,7 +36,6 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 			const isMember =
 				response.data.result.status === "member" || response.data.result.status === "administrator";
 			setIsVerified(isMember); // Set isVerified based on membership status
-			console.log("isVerified", isVerified);
 			return isMember;
 		} catch (error) {
 			console.error("Error checking user in group:", error);
@@ -75,6 +74,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 				toast.error("Please complete this task");
 			}
 		}
+		setIsVerified(false);
 	};
 
 	return (

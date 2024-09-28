@@ -4,7 +4,6 @@ import axiosInstance from "../../api/axiosInstance";
 // Thunk to fetch tasks
 export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
 	const response = await axiosInstance.get("/tasks");
-	console.log(response);
 	return response.data;
 });
 
