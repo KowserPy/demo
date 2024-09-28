@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import GetStarted from "../components/GetStarted";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { createUser } from "../features/auth/authSlice";
 
 const Login = () => {
+	const location = useLocation();
 	const [isLoggedInTg, setLoggedInTg] = useState(false);
 	const [userData, setUserData] = useState({});
 	const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const Login = () => {
 		if (isSuccess || token) {
 			navigate("/"); // Navigate to home if already authenticated
 		}
+		console.log(location);
 	}, [isSuccess, token, navigate]);
 
 	useEffect(() => {
