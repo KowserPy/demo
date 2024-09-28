@@ -19,17 +19,24 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 		}
 	}, [isOpen]);
 
-	const handleTaskVeriff = async () => {
-		try {
-			const response = await axios.get(`https://api.telegram.org/bot${botToken}/getChatMember`, {
-				params: {
-					chat_id: "@MyOWNPY",
-					user_id: profile?.telegramId,
-				},
-			});
-		} catch (error) {
-			// Handle error or retry
-			console.error("Error fetching user membership:", error);
+	const handleTaskVeriff = async (task) => {
+		if (task.taskCategory === "telegram") {
+			try {
+				const response = await axios.get(`https://api.telegram.org/bot${botToken}/getChatMember`, {
+					params: {
+						chat_id: "@MyOWNPY",
+						user_id: profile?.telegramId,
+					},
+				});
+				setVerified(true);
+				console.log(response);
+			} catch (error) {
+				// Handle error or retry
+				setVerified(false);
+				console.error("Error fetching user membership:", error);
+			}
+		} else {
+			setVerified(true);
 		}
 
 		return true;
@@ -37,22 +44,19 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 
 	const completeTaskHandler = (task) => {
 		if (task) {
-			dispatch(completeATask(task._id));
+			if (verified) {
+				dispatch(completeATask(task._id));
+			}
 		}
 		onClose();
 	};
 	const handleJoin = (task) => {
 		if (task.taskCategory === "telegram") {
-			Telegram.WebApp.openTelegramLink(task.link);
+			Telegram.WebApp.openTelegramLink(task.completionURL);
 		} else {
-			Telegram.WebApp.openLink(task.link, { try_instant_view: true });
+			Telegram.WebApp.openLink(task.completionURL, { try_instant_view: true });
 		}
-		const value = handleTaskVeriff();
-		if (value) {
-			setVerified(true);
-		} else {
-			setVerified(false);
-		}
+		handleTaskVeriff(task);
 	};
 
 	return (
