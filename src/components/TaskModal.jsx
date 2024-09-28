@@ -23,9 +23,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 	const completeTaskHandler = async (task) => {
 		if (task) {
 			if (task.taskCategory === "telegram") {
-				console.log("calleed onTaskVeriff");
 				try {
-					console.log(profile);
 					const response = await axios.get(`https://api.telegram.org/bot${botToken}/getChatMember`, {
 						params: {
 							chat_id: "@MyOWNPY",
@@ -34,6 +32,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 					});
 					if (response.data.status === "kicked" || response.data.status === "left") {
 						setVerified(false);
+						return;
 					} else {
 						setVerified(true);
 					}
