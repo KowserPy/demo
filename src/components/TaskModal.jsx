@@ -24,7 +24,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 		// Logic to check if the user has joined the Telegram group
 		let link = task?.completionURL;
 		const telegramId = profile?.telegramId;
-		console.log(telegramId);
+		console.log(profile);
 		const chat_idUsername = link.replace("https://t.me/", "@");
 		console.log("chat_idUsername", chat_idUsername);
 		try {
