@@ -20,9 +20,9 @@ const Profile = () => {
 	}
 
 	// Safely access profile data
-	const totalPoints = profile?.user?.totalPoints || 0;
-	const taskPoints = profile?.user?.taskPoints || 0;
-	const referralPoints = profile?.user?.referralPoints || 0;
+	const totalPoints = profile?.totalPoints || 0;
+	const taskPoints = profile?.taskPoints || 0;
+	const referralPoints = profile?.referralPoints || 0;
 
 	return (
 		<div className="bg-gradient-to-r from-blue-200 to-cyan-200 p-5 rounded-lg shadow-lg w-full max-w-md">

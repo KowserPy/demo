@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { completeATask } from "../features/task/TaskSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 const botToken = import.meta.env.VITE_BOT_TOKEN;
@@ -24,7 +24,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 			const response = await axios.get(`https://api.telegram.org/bot${botToken}/getChatMember`, {
 				params: {
 					chat_id: "@MyOWNPY",
-					user_id: profile?.user?.telegramId,
+					user_id: profile?.telegramId,
 				},
 			});
 		} catch (error) {
