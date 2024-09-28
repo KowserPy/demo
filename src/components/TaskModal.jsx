@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { completeTask } from "../features/task/TaskSlice";
+import { completeATask } from "../features/task/TaskSlice";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -23,7 +23,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 
 	const completeTaskHandler = (task) => {
 		if (task) {
-			dispatch(completeTask(task._id));
+			dispatch(completeATask(task._id));
 		}
 		onClose();
 	};
