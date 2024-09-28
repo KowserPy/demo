@@ -29,10 +29,14 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 					user_id: profile.telegramId, // User's Telegram ID
 				},
 			});
-			return response.data.result.status === "member" || response.data.result.status === "administrator";
+			const isMember =
+				response.data.result.status === "member" || response.data.result.status === "administrator";
+			setIsVerified(isMember); // Set isVerified based on membership status
+			return isMember;
 		} catch (error) {
 			console.error("Error checking user in group:", error);
-			return false; // Assume user is not in the group if there's an error
+			setIsVerified(false); // Assume user is not in the group if there's an error
+			return false;
 		}
 	};
 
