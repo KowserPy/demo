@@ -36,20 +36,18 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 			setVerified(false);
 			console.error("Error fetching user membership:", error);
 		}
-
-		return true;
 	};
 
 	const completeTaskHandler = (task) => {
 		if (task) {
 			if (verified) {
+				console.log("Task completed successfully");
 				dispatch(completeATask(task._id));
 			} else {
+				console.log("Error , completeTask");
 				toast.error("Complte The task Please");
-				return;
 			}
 		}
-		onClose();
 	};
 	const handleJoin = (task) => {
 		if (task.taskCategory === "telegram") {
