@@ -38,25 +38,34 @@ const Task = () => {
 				<p className="text-gray-700 text-lg text-center">Simple steps to get more rating.</p>
 			</div>
 
-			<ul className="flex flex-col gap-2 space-y-4 max-w-md w-full mx-auto bg-gradient-to-r from-blue-200 to-cyan-200 p-5 rounded-lg">
-				{tasks.map((task, index) => (
-					<li key={index} className="flex items-center gap-2 cursor-pointer" onClick={() => openTask(task)}>
-						<div className="w-14 h-14 text-xl flex justify-center items-center bg-gradient-to-r from-violet-200 to-pink-200 rounded-full">
-							{task.taskCategory === "telegram" ? (
-								<FaTelegramPlane />
-							) : task.taskCategory === "twitter" ? (
-								<FaTwitter />
-							) : (
-								<FaYoutube />
-							)}
-						</div>
-						<div className="flex flex-col">
-							<p className="text-gray-800 text-xl font-semibold">{task.title}</p>
-							<span className="text-yellow-500 font-semibold">{task.points} WOOF</span>
-						</div>
-					</li>
-				))}
-			</ul>
+			{/* Conditional rendering for tasks */}
+			{tasks.length > 0 ? (
+				<ul className="flex flex-col gap-2 space-y-4 max-w-md w-full mx-auto bg-gradient-to-r from-blue-200 to-cyan-200 p-5 rounded-lg">
+					{tasks.map((task, index) => (
+						<li
+							key={index}
+							className="flex items-center gap-2 cursor-pointer"
+							onClick={() => openTask(task)}
+						>
+							<div className="w-14 h-14 text-xl flex justify-center items-center bg-gradient-to-r from-violet-200 to-pink-200 rounded-full">
+								{task.taskCategory === "telegram" ? (
+									<FaTelegramPlane />
+								) : task.taskCategory === "twitter" ? (
+									<FaTwitter />
+								) : (
+									<FaYoutube />
+								)}
+							</div>
+							<div className="flex flex-col">
+								<p className="text-gray-800 text-xl font-semibold">{task.title}</p>
+								<span className="text-yellow-500 font-semibold">{task.points} WOOF</span>
+							</div>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p className="text-gray-800 text-lg text-center">No tasks available.</p>
+			)}
 
 			{/* Modal for Task Details */}
 			<TaskModal task={selectedTask} isOpen={isModalOpen} onClose={closeModal} />
