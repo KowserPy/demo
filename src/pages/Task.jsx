@@ -7,6 +7,8 @@ import { FaTwitter } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 
 const Task = () => {
+	const [selectedTask, setSelectedTask] = useState(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 	const dispatch = useDispatch();
 	const { tasks, loading, error } = useSelector((state) => state.task);
 
@@ -14,6 +16,16 @@ const Task = () => {
 		console.log(tasks);
 		dispatch(fetchTasks());
 	}, [dispatch]);
+
+	const openTask = (task) => {
+		setSelectedTask(task);
+		setIsModalOpen(true);
+	};
+
+	const closeModal = () => {
+		setIsModalOpen(false);
+		setSelectedTask(null);
+	};
 
 	return (
 		<div className="bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col items-center p-5 gap-5 h-[calc(100vh-4rem)] hide-scrollbar overflow-y-scroll space-y-6 pb-20 relative">
@@ -46,7 +58,7 @@ const Task = () => {
 			</ul>
 
 			{/* Modal for Task Details */}
-			{/* <TaskModal task={selectedTask} isOpen={isModalOpen} onClose={closeModal} /> */}
+			<TaskModal task={selectedTask} isOpen={isModalOpen} onClose={closeModal} />
 		</div>
 	);
 };

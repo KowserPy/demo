@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { completeTask } from "../features/task/TaskSlice";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const TaskModal = ({ task, isOpen, onClose }) => {
 	const [verified, setVerified] = useState(false);
@@ -16,6 +17,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 	}, [isOpen]);
 
 	const handleTaskVeriff = () => {
+		toast("Hello");
 		return true;
 	};
 
