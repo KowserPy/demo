@@ -31,8 +31,11 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 							user_id: profile?.telegramId,
 						},
 					});
-					console.log(response);
-					setVerified(true);
+					if (response.data.status === "kicked" || response.data.status === "left") {
+						setVerified(false);
+					} else {
+						setVerified(true);
+					}
 				} catch (error) {
 					// Handle error or retry
 					setVerified(false);
