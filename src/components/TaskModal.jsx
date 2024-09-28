@@ -59,13 +59,8 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 	const completeTaskHandler = async (task) => {
 		if (task.taskCategory === "telegram") {
 			const isMember = await checkUserInGroup(task);
-			if (!isMember) {
-				toast.error("Please complete this task");
-				return;
-			}
 		}
 		if (isVerified) {
-			// If we are here, we can dispatch the complete task action
 			dispatch(completeATask(task._id));
 			toast.success("Task completed successfully!");
 			onClose(); // Close modal after completing
