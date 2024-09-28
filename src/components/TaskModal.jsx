@@ -41,7 +41,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 	};
 
 	const handleUrlOpen = async (task) => {
-		if (task.category === "telegram") {
+		if (task.taskCategory === "telegram") {
 			// For Telegram tasks, allow the user to open the link
 			window.Telegram.WebApp.openTelegramLink(task.completionURL);
 		} else {
@@ -52,7 +52,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 	};
 
 	const completeTaskHandler = async (task) => {
-		if (task.category === "telegram") {
+		if (task.taskCategory === "telegram") {
 			const isMember = await checkUserInGroup(task);
 			console.log("isMember", isMember);
 			if (!isMember) {
