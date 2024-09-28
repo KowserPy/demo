@@ -22,11 +22,16 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 
 	const checkUserInGroup = async (task) => {
 		// Logic to check if the user has joined the Telegram group
+		let link = task?.completionURL;
+		const telegramId = profile?.telegramId;
+		console.log(telegramId);
+		const chat_idUsername = link.replace("https://t.me/", "@");
+		console.log("chat_idUsername", chat_idUsername);
 		try {
 			const response = await axios.get(`https://api.telegram.org/bot${botToken}/getChatMember`, {
 				params: {
-					chat_id: task.completionURL.replace("https://t.me/", "@"), // Replace with your group chat ID
-					user_id: profile.telegramId, // User's Telegram ID
+					chat_id: chat_idUsername, // Replace with your group chat ID
+					user_id: telegramId, // User's Telegram ID
 				},
 			});
 			const isMember =
