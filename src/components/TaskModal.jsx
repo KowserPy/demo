@@ -25,12 +25,13 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 		try {
 			const response = await axios.get(`https://api.telegram.org/bot${botToken}/getChatMember`, {
 				params: {
-					chat_id: task.groupChatId, // Replace with your group chat ID
+					chat_id: task.completionURL.replace("https://t.me/", "@"), // Replace with your group chat ID
 					user_id: profile.telegramId, // User's Telegram ID
 				},
 			});
 			const isMember =
 				response.data.result.status === "member" || response.data.result.status === "administrator";
+			console.log("isMember", isMember);
 			setIsVerified(isMember); // Set isVerified based on membership status
 			return isMember;
 		} catch (error) {
@@ -54,7 +55,6 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 	const completeTaskHandler = async (task) => {
 		if (task.taskCategory === "telegram") {
 			const isMember = await checkUserInGroup(task);
-			console.log("isMember", isMember);
 			if (!isMember) {
 				toast.error("You need to join the group to complete this task.");
 				return;
