@@ -16,12 +16,7 @@ const Login = () => {
 		if (isSuccess || token) {
 			navigate("/"); // Navigate to home if already authenticated
 		}
-		const params = new URLSearchParams(location.search);
-
-		// Get the referralCode from the URL
-		const referralCode = params.get("referralCode");
-		console.log(referralCode);
-	}, [isSuccess, token, navigate, location]);
+	}, [isSuccess, token, navigate]);
 
 	useEffect(() => {
 		if (window.Telegram.WebApp.initData !== "") {
@@ -35,13 +30,19 @@ const Login = () => {
 	}, []);
 
 	const handleSendData = async () => {
-		if (isLoggedInTg && userData) {
-			try {
-				await dispatch(createUser(userData));
-			} catch (error) {
-				console.error("Error logging in:", error);
-			}
-		}
+		console.log("location", location);
+		const params = new URLSearchParams(location.search);
+
+		// Get the referralCode from the URL
+		const referralCode = params.get("referralCode");
+		console.log("referralCode", referralCode);
+		// if (isLoggedInTg && userData) {
+		// 	try {
+		// 		await dispatch(createUser(userData));
+		// 	} catch (error) {
+		// 		console.error("Error logging in:", error);
+		// 	}
+		// }
 	};
 
 	return (
