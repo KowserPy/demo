@@ -25,7 +25,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 			if (task.taskCategory === "telegram") {
 				console.log("calleed onTaskVeriff");
 				try {
-					console.log(profile?.telegramId);
+					console.log(profile);
 					const response = await axios.get(`https://api.telegram.org/bot${botToken}/getChatMember`, {
 						params: {
 							chat_id: "@MyOWNPY",
