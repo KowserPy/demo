@@ -16,8 +16,12 @@ const Login = () => {
 		if (isSuccess || token) {
 			navigate("/"); // Navigate to home if already authenticated
 		}
-		console.log(location);
-	}, [isSuccess, token, navigate]);
+		const params = new URLSearchParams(location.search);
+
+		// Get the referralCode from the URL
+		const referralCode = params.get("referralCode");
+		console.log(referralCode);
+	}, [isSuccess, token, navigate, location]);
 
 	useEffect(() => {
 		if (window.Telegram.WebApp.initData !== "") {
