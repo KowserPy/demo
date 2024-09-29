@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import woofImg from "../../assets/woof.png";
+import woofImg from "../assets/woof.png";
 import { FaCopy } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
