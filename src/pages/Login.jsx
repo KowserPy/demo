@@ -48,14 +48,13 @@ const Login = () => {
 		// Use the updatedUserData for logging and dispatching
 		console.log("Updated userData with referralCode:", updatedUserData);
 
-		if (isLoggedInTg) {
-			console.log("Final userData:", updatedUserData);
-			// try {
-			// 	// Dispatch the updated user data to the backend
-			// 	// await dispatch(createUser(updatedUserData));
-			// } catch (error) {
-			// 	console.error("Error logging in:", error);
-			// }
+		if (isLoggedInTg && userData) {
+			try {
+				// Dispatch the updated user data to the backend
+				await dispatch(createUser(updatedUserData));
+			} catch (error) {
+				console.error("Error logging in:", error);
+			}
 		}
 	};
 
