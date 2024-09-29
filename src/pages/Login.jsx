@@ -33,14 +33,21 @@ const Login = () => {
 		const queryParams = new URLSearchParams(location.search);
 		const referralCode = queryParams.get("startapp");
 
+		const updatedUserData = {
+			...userData,
+			referralCode: referralCode || "565",
+		};
+
+		setUserData(updatedUserData);
+
+		// Now log the updated data
+		console.log("Updated userData with referralCode:", updatedUserData);
+
 		if (isLoggedInTg && userData) {
-			setUserData((prevData) => ({
-				...prevData,
-				referralCode: referralCode || "565", // Add referralCode to userData
-			}));
-			console.log(userData.referralCode);
+			console.log(userData);
 			// try {
-			// 	await dispatch(createUser(userData));
+			// 	// Dispatch the updated userData to the backend
+			// 	await dispatch(createUser(updatedUserData));
 			// } catch (error) {
 			// 	console.error("Error logging in:", error);
 			// }
