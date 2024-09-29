@@ -38,7 +38,7 @@ const Login = () => {
 				...prevData,
 				referralCode: referralCode || "565", // Add referralCode to userData
 			}));
-			console.log(userData);
+			console.log(userData.referralCode);
 			// try {
 			// 	await dispatch(createUser(userData));
 			// } catch (error) {
