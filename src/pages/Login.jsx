@@ -29,7 +29,7 @@ const Login = () => {
 		}
 		const queryParams = new URLSearchParams(location.search);
 		const referralCode = queryParams.get("startapp");
-		console.log(referralCode);
+		// console.log(referralCode);
 	}, []);
 
 	const handleSendData = async () => {
