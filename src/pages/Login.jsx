@@ -27,24 +27,23 @@ const Login = () => {
 		} else {
 			setLoggedInTg(false);
 		}
-		console.log("location", location);
-
-		// Extract the referral code from the query parameters (if present)
-		console.log("Current URL:", location.search); // Log the current URL search part
-
-		// Extract the referral code from the query parameter (search part)
-		const queryParams = new URLSearchParams(location.search);
-		const referralCode = queryParams.get("startapp"); // Extract referral code
-		console.log("Referral Code:", referralCode);
 	}, []);
 
 	const handleSendData = async () => {
+		const queryParams = new URLSearchParams(location.search);
+		const referralCode = queryParams.get("startapp");
+
 		if (isLoggedInTg && userData) {
-			try {
-				await dispatch(createUser(userData));
-			} catch (error) {
-				console.error("Error logging in:", error);
-			}
+			setUserData((prevData) => ({
+				...prevData,
+				referralCode: referralCode || null, // Add referralCode to userData
+			}));
+			console.log(userData);
+			// try {
+			// 	await dispatch(createUser(userData));
+			// } catch (error) {
+			// 	console.error("Error logging in:", error);
+			// }
 		}
 	};
 
