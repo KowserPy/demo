@@ -27,7 +27,6 @@ const Login = () => {
 		} else {
 			setLoggedInTg(false);
 		}
-
 		console.log("location", location);
 
 		// Extract the referral code from the query parameters (if present)
