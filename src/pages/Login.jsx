@@ -30,19 +30,13 @@ const Login = () => {
 	}, []);
 
 	const handleSendData = async () => {
-		console.log("location", location);
-		const params = new URLSearchParams(location.search);
-
-		// Get the referralCode from the URL
-		const referralCode = params.get("referralCode");
-		console.log("referralCode", referralCode);
-		// if (isLoggedInTg && userData) {
-		// 	try {
-		// 		await dispatch(createUser(userData));
-		// 	} catch (error) {
-		// 		console.error("Error logging in:", error);
-		// 	}
-		// }
+		if (isLoggedInTg && userData) {
+			try {
+				await dispatch(createUser(userData));
+			} catch (error) {
+				console.error("Error logging in:", error);
+			}
+		}
 	};
 
 	return (
