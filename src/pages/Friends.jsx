@@ -16,7 +16,7 @@ const Friends = () => {
 		// Handle copy link logic here
 		const myRefferCode = profile?.referralCode;
 
-		const url = `http://t.me/WoofDash_bot/start?startapp="${myRefferCode}`;
+		const url = `http://t.me/WoofDash_bot/start?startapp=${myRefferCode}`;
 		navigator.clipboard.writeText(url);
 		setNotificationVisible(true);
 		setTimeout(() => setNotificationVisible(false), 2000); // Hide after 2 seconds
@@ -31,7 +31,7 @@ const Friends = () => {
 
 	return (
 		<div className="bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col items-center p-5 gap-5 h-[calc(100vh-4rem)] hide-scrollbar overflow-y-scroll space-y-6 pb-20 relative">
-			<div className="flex justify-center items-center mb-6 max-w-md w-full mx-auto">
+			<div className="flex justify-center items-center max-w-md w-full mx-auto">
 				<img src={woofImg} className="w-1/3" alt="WOOF" />
 			</div>
 			<p className="text-2xl text-center font-semibold">Invite frens</p>
