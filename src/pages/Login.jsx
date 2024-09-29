@@ -27,7 +27,7 @@ const Login = () => {
 		} else {
 			setLoggedInTg(false);
 		}
-		const location = useLocation();
+
 		console.log("location", location);
 
 		// Extract the referral code from the query parameters (if present)
@@ -36,6 +36,7 @@ const Login = () => {
 		// Extract the referral code from the query parameter (search part)
 		const queryParams = new URLSearchParams(location.search);
 		const referralCode = queryParams.get("tgWebAppStartParam"); // Extract referral code
+		console.log("Referral Code:", referralCode);
 	}, []);
 
 	const handleSendData = async () => {
