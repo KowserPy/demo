@@ -36,7 +36,7 @@ const Login = () => {
 		if (isLoggedInTg && userData) {
 			setUserData((prevData) => ({
 				...prevData,
-				referralCode: referralCode || null, // Add referralCode to userData
+				referralCode: referralCode || "565", // Add referralCode to userData
 			}));
 			console.log(userData);
 			// try {
