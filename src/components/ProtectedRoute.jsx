@@ -8,6 +8,7 @@ const ProtectedRoute = ({ children }) => {
 
 	// Extract the referral code from the query parameters (if present)
 	const queryParams = new URLSearchParams(location.search);
+	console.log("queryParams", queryParams);
 	const referralCode = queryParams.get("startapp");
 	console.log("referralCode", referralCode);
 
