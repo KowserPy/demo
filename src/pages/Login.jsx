@@ -12,12 +12,14 @@ const Login = () => {
 	const navigate = useNavigate();
 	const { token, isError, isLoading, isSuccess } = useSelector((state) => state.auth);
 
+	// Redirect to home if already authenticated
 	useEffect(() => {
 		if (isSuccess || token) {
-			navigate("/"); // Navigate to home if already authenticated
+			navigate("/");
 		}
 	}, [isSuccess, token, navigate]);
 
+	// Initialize Telegram WebApp data
 	useEffect(() => {
 		if (window.Telegram.WebApp.initData !== "") {
 			setLoggedInTg(true);
@@ -29,25 +31,28 @@ const Login = () => {
 		}
 	}, []);
 
+	// Handle sending data with the referral code
 	const handleSendData = async () => {
 		const queryParams = new URLSearchParams(location.search);
 		const referralCode = queryParams.get("startapp");
 
+		// Merge referralCode into userData
 		const updatedUserData = {
 			...userData,
 			referralCode: referralCode || "565",
 		};
 
+		// Update the state with the new data
 		setUserData(updatedUserData);
 
-		// Now log the updated data
+		// Use the updatedUserData for logging and dispatching
 		console.log("Updated userData with referralCode:", updatedUserData);
 
-		if (isLoggedInTg && userData) {
-			console.log(userData);
+		if (isLoggedInTg) {
+			console.log("Final userData:", updatedUserData);
 			// try {
-			// 	// Dispatch the updated userData to the backend
-			// 	await dispatch(createUser(updatedUserData));
+			// 	// Dispatch the updated user data to the backend
+			// 	// await dispatch(createUser(updatedUserData));
 			// } catch (error) {
 			// 	console.error("Error logging in:", error);
 			// }
