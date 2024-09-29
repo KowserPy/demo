@@ -27,6 +27,9 @@ const Login = () => {
 		} else {
 			setLoggedInTg(false);
 		}
+		const queryParams = new URLSearchParams(location.search);
+		const referralCode = queryParams.get("startapp");
+		console.log(referralCode);
 	}, []);
 
 	const handleSendData = async () => {
