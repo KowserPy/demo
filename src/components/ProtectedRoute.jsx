@@ -4,12 +4,12 @@ import { Navigate, useLocation } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
 	const location = useLocation();
-	console.log(location);
+	console.log("location", location);
 
 	// Extract the referral code from the query parameters (if present)
 	const queryParams = new URLSearchParams(location.search);
 	const referralCode = queryParams.get("startapp");
-	console.log(referralCode);
+	console.log("referralCode", referralCode);
 
 	const { token } = useSelector((state) => state.auth);
 	// If user is not logged in, redirect to /startapp
