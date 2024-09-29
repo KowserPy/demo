@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children }) => {
 
 	// Extract the referral code from the query parameter (search part)
 	const queryParams = new URLSearchParams(location.search);
-	const referralCode = queryParams.get("tgiWebAppStartParam"); // Extract referral code
+	const referralCode = queryParams.get("tgWebAppStartParam"); // Extract referral code
 
 	console.log("Referral Code:", referralCode); // Log the extracted referral code
 
