@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }) => {
 	// Extract the referral code from the query parameters (if present)
 	const queryParams = new URLSearchParams(location.search);
 	console.log("queryParams", queryParams);
-	const referralCode = queryParams.get("startapp");
+	const referralCode = queryParams.get("tgiWebAppStartParam");
 	console.log("referralCode", referralCode);
 
 	const { token } = useSelector((state) => state.auth);
