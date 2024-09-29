@@ -39,7 +39,7 @@ const Login = () => {
 		// Merge referralCode into userData
 		const updatedUserData = {
 			...userData,
-			referralCode: referralCode || "565",
+			referralCode: referralCode || null,
 		};
 
 		// Update the state with the new data
