@@ -34,7 +34,7 @@ const Login = () => {
 
 		// Extract the referral code from the query parameter (search part)
 		const queryParams = new URLSearchParams(location.search);
-		const referralCode = queryParams.get("tgWebAppStartParam"); // Extract referral code
+		const referralCode = queryParams.get("startapp"); // Extract referral code
 		console.log("Referral Code:", referralCode);
 	}, []);
 
